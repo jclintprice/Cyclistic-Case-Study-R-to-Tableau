@@ -1,0 +1,28 @@
+# Load libraries
+library("tidyverse")
+library("readxl")
+library("data.table")
+library("rmarkdown")
+library("hms")
+library("lubridate")
+install.packages("janitor")
+library("janitor")
+
+# Load .csv files, January 2022 - December 2022
+jan_df <- read_csv("~/Bike Data/202201-divvy-tripdata.csv")
+feb_df <- read_csv("~/Bike Data/202202-divvy-tripdata.csv")
+mar_df <- read_csv("~/Bike Data/202203-divvy-tripdata.csv")
+apr_df <- read_csv("~/Bike Data/202204-divvy-tripdata.csv")
+may_df <- read_csv("~/Bike Data/202205-divvy-tripdata.csv")
+jun_df <- read_csv("~/Bike Data/202206-divvy-tripdata.csv")
+jul_df <- read_csv("~/Bike Data/202207-divvy-tripdata.csv")
+aug_df <- read_csv("~/Bike Data/202208-divvy-tripdata.csv")
+sep_df <- read_csv("~/Bike Data/202209-divvy-tripdata.csv")
+oct_df <- read_csv("~/Bike Data/202210-divvy-tripdata.csv")
+nov_df <- read_csv("~/Bike Data/202211-divvy-tripdata.csv")
+dec_df <- read_csv("~/Bike Data/202212-divvy-tripdata.csv")
+
+# Merge data into one year
+cyclistic_df <- rbind(jan_df, feb_df, mar_df, apr_df, may_df, jun_df, jul_df, 
+                      aug_df, sep_df, oct_df, nov_df, dec_df)
+
