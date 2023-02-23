@@ -1,4 +1,4 @@
-# Load libraries
+# Install and load packages
 library("tidyverse")
 library("readxl")
 library("data.table")
@@ -26,3 +26,18 @@ dec_df <- read_csv("~/Bike Data/202212-divvy-tripdata.csv")
 cyclistic_df <- rbind(jan_df, feb_df, mar_df, apr_df, may_df, jun_df, jul_df, 
                       aug_df, sep_df, oct_df, nov_df, dec_df)
 
+# Clean and trim data that's not needed
+cyclistic_trimmed_df <- cyclistic_df %>%
+  select("started_at", "ended_at", "member_casual")
+drop_na(cyclistic_trimmed_df)
+distinct(cyclistic_trimmed_df)
+
+# Separate date and time into new columns
+cyclistic_trimmed_df$date <- as.Date(cyclistic_trimmed_df$started_at)
+cyclistic_trimmed_df$day_of_week <- wday(cyclistic_trimmed_df$started_at)
+cyclistic_trimmed_df$day_of_week <- format(as.Date(cyclistic_trimmed_df$date),
+                                           "%A")
+cyclistic_trimmed_df$time <- format(as.Date(cyclistic_trimmed_df$date), 
+                                    "%H:%M:%S")
+cyclistic_trimmed_df$time <- as_hms((cyclistic_trimmed_df$started_at))
+cyclistic_trimmed_df$hour <- hour(cyclistic_trimmed_df$time)
