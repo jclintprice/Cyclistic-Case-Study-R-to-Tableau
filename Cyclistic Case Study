@@ -41,3 +41,21 @@ cyclistic_trimmed_df$time <- format(as.Date(cyclistic_trimmed_df$date),
                                     "%H:%M:%S")
 cyclistic_trimmed_df$time <- as_hms((cyclistic_trimmed_df$started_at))
 cyclistic_trimmed_df$hour <- hour(cyclistic_trimmed_df$time)
+cyclistic_trimmed_df$month <- format(as.Date(cyclistic_trimmed_df$date), "%m")
+cyclistic_trimmed_df$day <- format(as.Date(cyclistic_trimmed_df$date), "%d")
+cyclistic_trimmed_df <- cyclistic_trimmed_df %>% relocate(month, day,
+                                                          .after=date)
+
+# Subtract started_at from ended_at to get length of rides
+cyclistic_trimmed_df$ride_length <- difftime(cyclistic_trimmed_df$ended_at, 
+                                             cyclistic_trimmed_df$started_at, 
+                                             units = "mins")
+cyclistic_trimmed_df$ride_length <- round(cyclistic_trimmed_df$ride_length,
+                                          digits = 1)
+
+# Clean and trim data that's not needed again
+cyclistic_tab <- cyclistic_trimmed_df %>%
+  select("member_casual", "month", "day_of_week", "hour", "ride_length")
+
+# Save the data so that it can be imported into Tableau
+write.csv(cyclistic_tab, "CyclisticR.csv")
